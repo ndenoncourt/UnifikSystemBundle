@@ -38,7 +38,7 @@ class TranslationExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'transTitle' => new \Twig_Filter_Method($this, 'transTitle')
+            new \Twig_SimpleFilter('transTitle', [$this, 'transTitle']),
         );
     }
 

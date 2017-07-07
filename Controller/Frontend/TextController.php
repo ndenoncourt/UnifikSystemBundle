@@ -76,7 +76,7 @@ class TextController extends BaseController
             'UnifikSystemBundle:Frontend/Text:displayTexts.html.twig',
             [
                 'texts' => $texts,
-                'textId' => $this->get('request')->get('bloc')
+                'textId' => $request->get('bloc')
             ],
             $response
         );

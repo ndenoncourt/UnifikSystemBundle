@@ -2,12 +2,8 @@
 
 namespace Unifik\SystemBundle\Extensions;
 
-use Symfony\Component\HttpFoundation\Request;
 use Unifik\SystemBundle\Entity\MappingRepository;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-use \Twig_Environment;
-use \Twig_Function_Method;
 
 /**
  * Used in the frontend to get application related information
@@ -30,11 +26,6 @@ class ApplicationPathExtension extends \Twig_Extension {
     protected $mappingRepository;
 
     /**
-     * @var Twig_Environment
-     */
-    protected $environment;
-
-    /**
      * @var UrlGeneratorInterface
      */
     private $router;
@@ -44,15 +35,6 @@ class ApplicationPathExtension extends \Twig_Extension {
      */
     private $autoParametersHandler;
 
-    /**
-     * Init Runtime
-     *
-     * @param Twig_Environment $environment
-     */
-    public function initRuntime(Twig_Environment $environment)
-    {
-        $this->environment = $environment;
-    }
 
     public function getAppRoute($route_name, $app_id = null) {
         if (!$this->mappingRepository)
@@ -115,9 +97,9 @@ class ApplicationPathExtension extends \Twig_Extension {
     public function getFunctions()
     {
         return array(
-            'app_route' => new Twig_Function_Method($this, 'getAppRoute'),
-            'app_path' => new Twig_Function_Method($this, 'getAppPath'),
-            'app_url' => new Twig_Function_Method($this, 'getAppUrl'),
+            new \Twig_SimpleFunction('app_route', [$this, 'getAppRoute']),
+            new \Twig_SimpleFunction('app_path', [$this, 'getAppPath']),
+            new \Twig_SimpleFunction('app_url', [$this, 'getAppUrl']),
         );
     }
 

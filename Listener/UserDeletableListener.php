@@ -2,6 +2,7 @@
 
 namespace Unifik\SystemBundle\Listener;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Unifik\SystemBundle\Entity\User;
 use Unifik\SystemBundle\Lib\BaseDeletableListener;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -9,18 +10,18 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 class UserDeletableListener extends BaseDeletableListener
 {
     /**
-     * @var SecurityContextInterface
+     * @var TokenStorageInterface
      */
-    private $security;
+    private $tokenStorage;
 
     /**
      * Constructor
      *
-     * @param SecurityContextInterface $sci
+     * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(SecurityContextInterface $sci)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
-        $this->security = $sci;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -30,7 +31,7 @@ class UserDeletableListener extends BaseDeletableListener
      */
     protected function getCurrentUser()
     {
-        return $this->security->getToken()->getUser();
+        return $this->tokenStorage->getToken()->getUser();
     }
 
     /**

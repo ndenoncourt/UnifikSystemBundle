@@ -4,9 +4,6 @@ namespace Unifik\SystemBundle\Extensions;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use \Twig_Environment;
-use \Twig_Function_Method;
-
 /**
  * Used in the frontend to get application related information
  */
@@ -16,11 +13,6 @@ class ApplicationContextExtension extends \Twig_Extension {
      * @var Request
      */
     protected $request;
-
-    /**
-     * @var Twig_Environment
-     */
-    protected $environment;
 
     /**
      * @var \Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser
@@ -35,16 +27,6 @@ class ApplicationContextExtension extends \Twig_Extension {
     public function setRequest(Request $request = null)
     {
         $this->request = $request;
-    }
-
-    /**
-     * Init Runtime
-     *
-     * @param Twig_Environment $environment
-     */
-    public function initRuntime(Twig_Environment $environment)
-    {
-        $this->environment = $environment;
     }
 
     /**
@@ -65,9 +47,9 @@ class ApplicationContextExtension extends \Twig_Extension {
     public function getFunctions()
     {
         return array(
-            'get_bundle_name' => new Twig_Function_Method($this, 'getBundleName'),
-            'get_controller_name' => new Twig_Function_Method($this, 'getControllerName'),
-            'get_action_name' => new Twig_Function_Method($this, 'getActionName'),
+            new \Twig_SimpleFunction('get_bundle_name', [$this, 'getBundleName']),
+            new \Twig_SimpleFunction('get_controller_name', [$this, 'getControllerName']),
+            new \Twig_SimpleFunction('get_action_name', [$this, 'getActionName']),
         );
     }
 

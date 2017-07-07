@@ -31,13 +31,13 @@ class UserController extends BackendController
         parent::init();
 
         // Check if the current User has the privileges
-        if (!$this->get('security.context')->isGranted('ROLE_BACKEND_ADMIN')) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_BACKEND_ADMIN')) {
             throw new AccessDeniedHttpException();
         }
 
         $this->createAndPushNavigationElement('Users', 'unifik_system_backend_user');
 
-        $this->isDeveloper = $this->get('security.context')->isGranted('ROLE_DEVELOPER');
+        $this->isDeveloper = $this->get('security.authorization_checker')->isGranted('ROLE_DEVELOPER');
     }
 
     /**

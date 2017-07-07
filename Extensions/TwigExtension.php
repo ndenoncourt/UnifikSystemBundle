@@ -12,7 +12,7 @@ use Unifik\SystemBundle\Lib\Core;
 /**
  * Library of helper functions
  */
-class TwigExtension extends \Twig_Extension
+class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
      * @var Request
@@ -91,12 +91,12 @@ class TwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'is_external_url' => new \Twig_Function_Method($this, 'isExternalUrl'),
-            'date_range' => new \Twig_Function_Method($this, 'dateRange'),
-            'tree_indentation' => new \Twig_Function_Method($this, 'treeIndentation'),
-            'bundle_name' => new \Twig_Function_Method($this, 'getBundleName'),
-            'controller_name' => new \Twig_Function_Method($this, 'getControllerName'),
-            'action_name' => new \Twig_Function_Method($this, 'getActionName'),
+            new \Twig_SimpleFunction('is_external_url', [$this, 'isExternalUrl']),
+            new \Twig_SimpleFunction('date_range', [$this, 'dateRange']),
+            new \Twig_SimpleFunction('tree_indentation', [$this, 'treeIndentation']),
+            new \Twig_SimpleFunction('bundle_name', [$this, 'getBundleName']),
+            new \Twig_SimpleFunction('controller_name', [$this, 'getControllerName']),
+            new \Twig_SimpleFunction('action_name', [$this, 'getActionName']),
         );
     }
 
@@ -108,12 +108,12 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'trim' => new \Twig_Filter_Method($this, 'trim'),
-            'strip_line_breaks' => new \Twig_Filter_Method($this, 'stripLineBreaks'),
-            'format_currency' => new \Twig_Filter_Method($this, 'formatCurrency'),
-            'ceil' => new \Twig_Filter_Method($this, 'ceil'),
-            'titleCase' => new \Twig_Filter_Method($this, 'titleCase'),
-            'preg_replace' => new \Twig_Filter_Method($this, 'pregReplace'),
+            new \Twig_SimpleFilter('trim', [$this, 'trim']),
+            new \Twig_SimpleFilter('strip_line_breaks', [$this, 'stripLineBreaks']),
+            new \Twig_SimpleFilter('format_currency', [$this, 'formatCurrency']),
+            new \Twig_SimpleFilter('ceil', [$this, 'ceil']),
+            new \Twig_SimpleFilter('titleCase', [$this, 'titleCase']),
+            new \Twig_SimpleFilter('preg_replace', [$this, 'pregReplace']),
         );
     }
 

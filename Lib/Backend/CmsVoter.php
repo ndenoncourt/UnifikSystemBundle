@@ -17,7 +17,7 @@ class CmsVoter implements VoterInterface
     /**
      * @var ContainerAwareInterface
      *
-     * Container is used because we cannot inject the security.context to get the Token (ServiceCircularReferenceException)
+     * Container is used because we cannot inject the security.authorization_checker to get the Token (ServiceCircularReferenceException)
      */
     protected $container;
 

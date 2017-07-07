@@ -2,6 +2,8 @@
 
 namespace Unifik\SystemBundle\Lib;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Unifik\SystemBundle\Entity\Section;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Doctrine\ORM\EntityManager;
@@ -17,9 +19,14 @@ class SectionFilter
     protected $entityManager;
 
     /**
-     * @var SecurityContextInterface
+     * @var AuthorizationCheckerInterface
      */
-    protected $securityContext;
+    protected $authChecker;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    protected $tokenStorage;
 
     /**
      * @var array
@@ -30,12 +37,14 @@ class SectionFilter
      * Constructor
      *
      * @param EntityManager            $entityManager
-     * @param SecurityContextInterface $securityContext
+     * @param AuthorizationCheckerInterface $authChecker
+     * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(EntityManager $entityManager, SecurityContextInterface $securityContext)
+    public function __construct(EntityManager $entityManager, AuthorizationCheckerInterface $authChecker, TokenStorageInterface $tokenStorage)
     {
         $this->entityManager = $entityManager;
-        $this->securityContext = $securityContext;
+        $this->authChecker = $authChecker;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -70,7 +79,7 @@ class SectionFilter
      */
     public function filterSections(Array $sections, $parent = null)
     {
-        if ($this->securityContext->isGranted('ROLE_BACKEND_ADMIN')) {
+        if ($this->authChecker->isGranted('ROLE_BACKEND_ADMIN')) {
             return $sections;
         }
 
@@ -133,7 +142,7 @@ class SectionFilter
         $this->allowedSectionIds = array();
 
         // Get the token
-        $token = $this->securityContext->getToken();
+        $token = $this->tokenStorage->getToken();
 
         if ($token->isAuthenticated()) {
 

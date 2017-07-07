@@ -28,7 +28,7 @@ class ApplicationController extends BackendController
      */
     public function init()
     {
-        if (false === $this->get('security.context')->isGranted('ROLE_DEVELOPER')) {
+        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_DEVELOPER')) {
             throw new AccessDeniedHttpException();
         }
 

@@ -19,7 +19,7 @@ class InspectExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'inspect' => new \Twig_Function_Method($this, 'inspect', array('needs_context' => true))
+            new \Twig_SimpleFunction('inspect', [$this, 'inspect'], ['needs_context' => true]),
         );
     }
 

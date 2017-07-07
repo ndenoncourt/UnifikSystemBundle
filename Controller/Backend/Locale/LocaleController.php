@@ -27,7 +27,7 @@ class LocaleController extends BackendController
         parent::init();
 
         // Access restricted to ROLE_BACKEND_ADMIN
-        if (false === $this->get('security.context')->isGranted('ROLE_BACKEND_ADMIN')) {
+        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_BACKEND_ADMIN')) {
             throw new AccessDeniedHttpException('You don\'t have the privileges to view this page.');
         }
 

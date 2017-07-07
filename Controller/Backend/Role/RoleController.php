@@ -41,16 +41,17 @@ class RoleController extends BackendController
     {
         parent::init();
 
+        $authChecker = $this->get('security.authorization_checker');
         // Check if the current User has the privileges
-        if (!$this->get('security.context')->isGranted('ROLE_BACKEND_ADMIN')) {
+        if (!$authChecker->isGranted('ROLE_BACKEND_ADMIN')) {
             throw new AccessDeniedHttpException();
         }
 
         $this->createAndPushNavigationElement('Roles', 'unifik_system_backend_role');
 
         // Add/remove some behaviors if Admin
-        $this->isAdmin = $this->get('security.context')->isGranted('ROLE_BACKEND_ADMIN');
-        $this->isDeveloper = $this->get('security.context')->isGranted('ROLE_DEVELOPER');
+        $this->isAdmin = $authChecker->isGranted('ROLE_BACKEND_ADMIN');
+        $this->isDeveloper = $authChecker->isGranted('ROLE_DEVELOPER');
         $this->rolesAdmin = array('ROLE_BACKEND_ADMIN', 'ROLE_DEVELOPER');
     }
 

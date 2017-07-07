@@ -95,7 +95,7 @@ class NavigationController extends BaseController
     public function appModuleBarAction()
     {
         // Access restricted to ROLE_BACKEND_ADMIN
-        if (false === $this->get('security.context')->isGranted('ROLE_BACKEND_ADMIN')) {
+        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_BACKEND_ADMIN')) {
             return new Response();
         }
 
@@ -117,7 +117,7 @@ class NavigationController extends BaseController
         $appCurrent = $this->getCore()->getApp();
 
         $appRepo = $this->getDoctrine()->getRepository('UnifikSystemBundle:App');
-        $apps = $appRepo->findAllHasAccess($this->get('security.context'), $this->getUser()->getId());
+        $apps = $appRepo->findAllHasAccess($this->get('security.authorization_checker'), $this->getUser()->getId());
 
         // BC fix, previous version had a "backend" application that need to be removed
         foreach ($apps as $key => $app) {

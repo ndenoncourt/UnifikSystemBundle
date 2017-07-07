@@ -22,7 +22,7 @@ class NavigationController extends BaseController
     public function globalModuleBarAction($_masterRoute)
     {
         // Access restricted to ROLE_BACKEND_ADMIN
-        if (false === $this->get('security.context')->isGranted('ROLE_BACKEND_ADMIN')) {
+        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_BACKEND_ADMIN')) {
             return new Response();
         }
 
@@ -42,7 +42,7 @@ class NavigationController extends BaseController
      */
     public function impersonatingBarAction()
     {
-        $securityContext = $this->get('security.context');
+        $securityContext = $this->get('security.authorization_checker');
 
         // Make sure you're impersonating a User
         if (!$securityContext->isGranted('ROLE_PREVIOUS_ADMIN')) {

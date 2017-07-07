@@ -23,7 +23,7 @@ class SectionType extends AbstractType
         $builder
             ->add('translation', new SectionTranslationType())
             ->add('parent', null, array(
-                'empty_value' => '',
+                'placeholder' => '',
                 'empty_data' => null,
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) use ($options) {
@@ -43,7 +43,7 @@ class SectionType extends AbstractType
             ->add('app', null, array(
                 'label' => 'Application',
                 'required' => false,
-                'empty_value' => false,
+                'placeholder' => false,
                 'class' => 'UnifikSystemBundle:App',
                 'query_builder' => function(EntityRepository $er) {
                     $qb = $er->createQueryBuilder('a')

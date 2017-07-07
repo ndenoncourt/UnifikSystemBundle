@@ -3,6 +3,7 @@
 namespace Unifik\SystemBundle\Lib\Backend;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Unifik\SystemBundle\Entity\AppRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -76,6 +77,11 @@ class Core implements ApplicationCoreInterface
     protected $container;
 
     /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
+    /**
      * @var bool
      */
     protected $initialized;
@@ -94,10 +100,6 @@ class Core implements ApplicationCoreInterface
     public function setContainer($container)
     {
         $this->container = $container;
-
-        if ($container->isScopeActive('request')) {
-            $this->request = $container->get('request');
-        }
     }
 
     /**
@@ -106,6 +108,26 @@ class Core implements ApplicationCoreInterface
     public function getContainer()
     {
         return $this->container;
+    }
+
+    /**
+     * @return RequestStack
+     */
+    public function getRequestStack()
+    {
+        return $this->requestStack;
+    }
+
+    /**
+     * @param RequestStack $requestStack
+     */
+    public function setRequestStack($requestStack)
+    {
+        $this->requestStack = $requestStack;
+
+        if ($requestStack->getCurrentRequest()) {
+            $this->request = $requestStack->getCurrentRequest();
+        }
     }
 
     /**
